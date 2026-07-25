@@ -7,6 +7,7 @@ const statusCode={
     FORBIDDEN:403,         //No permission
     NOT_FOUND:404,         //Resource doesn't exist
     CONFLICT:409,          //Duplicate resource
-    TOO_MANY_REQUESTS:429  //Too many requests
+    TOO_MANY_REQUESTS:429,
+    SERVER_ERROR:500  //Too many requests
 }
 export default statusCode;
