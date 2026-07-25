@@ -19,5 +19,9 @@ const emailVerificationSchema=new mongoose.Schema({
 },{
     timestamps:true
 })
+
+
+emailVerificationSchema.index({expiresAt:1},{
+    expireAfterSeconds:0});
 const EmailVerification=mongoose.model('EmailVerification',emailVerificationSchema);
 export default EmailVerification;
