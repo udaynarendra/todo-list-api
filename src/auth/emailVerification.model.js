@@ -1,9 +1,22 @@
 import mongoose from 'mongoose';
 const emailVerificationSchema=new mongoose.Schema({
-    user:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'User',
-        required:true   
+     name:{
+        type:String,
+        trim:true,
+        required:true
+    },
+    email:{
+        type:String,
+        trim:true,
+        lowercase:true,
+        unqiue:true,
+        match:[/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,"Invalid Email Format"],
+        required:true
+    },
+    password:{
+        type:String,
+        trim:true,
+        required:true
     },
     otp:{
         type:String,
