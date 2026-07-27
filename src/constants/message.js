@@ -5,6 +5,7 @@ const message={
     CREATED:'Created Successfully',
     UPDATED:'Updated Successfully',
     DELETED:'Deleted Successfully',
-    FETCHED:'Data Retrieved Successfully'
+    FETCHED:'Data Retrieved Successfully',
+    NOT_FOUND:'User not found'
 }
 export default message;
