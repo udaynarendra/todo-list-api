@@ -1,8 +1,8 @@
 import ApiError from '../utils/ApiError.js';
 import {statusCode} from '../constants/index.js';
-const validate=async(schema,property='body')=>{
+const Validate=(schema,property='body')=>{
     return (req,res,next)=>{
-      const {error,value}=await schema.validateAsync(req[body],{
+      const {error,value}=schema.validate(req['body'],{
         abortEarly:false,
         allowUnknown:false,
         stripeUnknown:true  
@@ -14,4 +14,4 @@ const validate=async(schema,property='body')=>{
       next();
     }
 }
-export default validate;
+export default Validate;
