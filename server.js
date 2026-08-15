@@ -1,6 +1,16 @@
-import express from 'express';
-import router from './routes/tasksRoutes.js';
-const app = express();
-app.use(express.json());
-app.use('/tasks',router);
-app.listen(5000,()=>console.log('server is running on 5000 port'));
+import app from './src/app.js';
+import env from './src/config/env.js';
+import connectDB from './src/config/db.js';
+import ApiError from './src/utils/ApiError.js';
+import {message} from './src/constants/index.js';
+function start(){
+    try{
+        connectDB();
+        app.listen(env.PORT,()=>console.log('server is running on 5000 port'));
+    }
+    catch(error){
+        throw new ApiError(env.SERVER_ERROR,message.SERVER_ERROR);
+        process.exit(0)
+    }
+}
+start();
