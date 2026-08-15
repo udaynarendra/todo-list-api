@@ -1,0 +1,14 @@
+import express from 'express';
+import { login, register, resendOtp, verifyOtp, logOut, forgotPassword, verifyForgotPasswordOtp, resetPassword } from './auth.controller.js';
+import { registerValidation, loginValidation, forgotPasswordValidation, verifyForgotPasswordOtpValidation, resetPasswordValidation } from './auth.validation.js';
+import Validate from '../middlewares/validation.middleware.js';
+const authRouter = express.Router();
+authRouter.post('/register', Validate(registerValidation, 'body'), register);
+authRouter.post('/verify-otp', verifyOtp);
+authRouter.post('/resend-otp', resendOtp);
+authRouter.post('/login', Validate(loginValidation, 'body'), login);
+authRouter.post('/logout', logOut);
+authRouter.post('/forgot-password', Validate(forgotPasswordValidation, 'body'), forgotPassword);
+authRouter.post('/forgot-password/verify-otp',Validate(verifyForgotPasswordOtpValidation,'body'),verifyForgotPasswordOtp);
+authRouter.post('/resetPassword',Validate(resetPasswordValidation,'body'),resetPassword);
+export default authRouter;
