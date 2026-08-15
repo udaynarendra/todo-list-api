@@ -1,3 +1,4 @@
+import bcrypt from 'bcrypt';
 import mongoose from 'mongoose';
 const emailVerificationSchema=new mongoose.Schema({
      name:{
@@ -21,20 +22,28 @@ const emailVerificationSchema=new mongoose.Schema({
     otp:{
         type:String,
         trim:true,
-        minlength:6,
-        maxlength:6,
         required:true
     },
     expiresAt:{
+        type:Date,
+        required:true
+    },
+    deleteAt:{
         type:Date,
         required:true
     }
 },{
     timestamps:true
 })
+emailVerificationSchema.pre('save',async function(){
+    if(!this.isModified('password'))
+    {
+        return;
+    }
+    this.password=await bcrypt.hash(this.password,10);
+})
 
-
-emailVerificationSchema.index({expiresAt:1},{
+emailVerificationSchema.index({deleteAt:1},{
     expireAfterSeconds:0});
 const EmailVerification=mongoose.model('EmailVerification',emailVerificationSchema);
 export default EmailVerification;
