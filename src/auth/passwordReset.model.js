@@ -8,13 +8,28 @@ const passwordResetSchema=new mongoose.Schema({
     otp:{
         type:String,
         trim:true,
-        minlength:6,
-        maxlength:6,
+        required:true
+    },
+    otpAttempts:{
+        type:Number,
+        default:0
+    },
+    lastOtpSentAt:{
+        type:Date,
         required:true
     },
     expiresAt:{
         type:Date,
         required:true
+    },
+    resetTokenHash:{
+        type:String,
+        default:null
+     
+    },
+    resetTokenExpiresAt:{
+        type:Date,
+        default:null
     }
 
 },{
