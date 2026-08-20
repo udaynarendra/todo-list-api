@@ -1,4 +1,7 @@
 import jwt from "jsonwebtoken";
+import env from '../config/env.js';
+import {statusCode,message} from '../constants/index.js';
+import apiResponse from "../utils/apiResponse.js";
 
 const authMiddleware = (req, res, next) => {
   try {
@@ -6,10 +9,7 @@ const authMiddleware = (req, res, next) => {
     const authHeader = req.headers.authorization;
 
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      return res.status(401).json({
-        success: false,
-        message: "Authentication required.",
-      });
+      return res.status(statusCode.UNAUTHORIZED).json(apiResponse(message.FAILED,message.AUTHENTICATION_REQUIRED));
     }
 
     // Extract token
@@ -26,10 +26,7 @@ const authMiddleware = (req, res, next) => {
 
     next();
   } catch (error) {
-    return res.status(401).json({
-      success: false,
-      message: "Invalid or expired token.",
-    });
+    return res.status(statusCode.UNAUTHORIZED).json(message.FAILED,message.INVALID_OR_EXPIRED_TOKEN);
   }
 };
 
