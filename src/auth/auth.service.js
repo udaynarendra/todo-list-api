@@ -84,7 +84,7 @@ const loginService = async (validateData) => {
         token: refreshToken,
         expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
     })
-    const accessToken = createAccessToken(isExisting.email, isExisting._id, isExisting.name);
+    const accessToken = createAccessToken(isExisting._id);
 
     return { accessToken, refreshToken };
 }
