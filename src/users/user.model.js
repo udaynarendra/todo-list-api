@@ -31,6 +31,10 @@ const userSchema=new mongoose.Schema({
         type:String,
         enum:['active','blocked','deleted'],
         default:'active'
+    },
+    deletedAt:{
+        type:String,
+        default:null
     }
 },{
     timestamps:true
