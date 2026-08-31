@@ -1,0 +1,11 @@
+import express from 'express';
+import authMiddleware from '../auth/auth.middleware.js';
+import { changePassword, deleteUser, getMe, updateUserDetails } from './user.controller.js';
+import Validate from '../middlewares/validation.middleware.js';
+import { changePasswordValidation, userDataValidation } from './user.validators.js';
+const userRouter = express.Router();
+userRouter.get('/me', authMiddleware, getMe);
+userRouter.patch('/me', authMiddleware, Validate(userDataValidation, 'body'), updateUserDetails);
+userRouter.patch('/me/password',authMiddleware,Validate(changePasswordValidation,'body'),changePassword);
+userRouter.patch('/me/delete',authMiddleware,deleteUser);
+export default userRouter;
