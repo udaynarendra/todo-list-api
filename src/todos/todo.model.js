@@ -25,20 +25,24 @@ const todoSchema=new mongoose.Schema({
         type:String,
         trim:true,
         lowercase:true,
-        enum:['low','medium','high']
+        enum:['low','medium','high'],
+        default:'low',
     },
     dueDate:{
         type:Date,
-        required:true
+        default:null,
     },
     completedAt:{
-        type:Date
+        type:Date,
+        default:null,
     },
     reminder:{
-        type:Date
+        type:Date,
+        default:null,
     },
     tags:[{
-        type:String
+        type:String,
+        default:null,
     }],
     ispinned:{
         type:Boolean,
