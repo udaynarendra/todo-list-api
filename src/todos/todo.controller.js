@@ -9,7 +9,7 @@ export const createTodo=asyncHandler(async(req,res)=>{
 });
 
 export const getAllTodos=asyncHandler(async(req,res)=>{
-   const todos= await getAllTodoService(req.user.id);
+   const todos= await getAllTodoService(req.user.id,req.query);
     return res.status(statusCode.OK).json(apiResponse(message.SUCCESS,message.FETCHED,todos))
 });
 export const getTodoById=asyncHandler(async(req,res)=>{
