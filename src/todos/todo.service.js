@@ -19,13 +19,9 @@ export const createTodoService=async(validateData,userId)=>{
 
     await createtodo(newTodo);
 };
-export const getAllTodoService=async(userId)=>{
-    const userTodos=await findAllTodos(userId);
-    if(userTodos.length===0){
-        throw new ApiError(statusCode.BAD_REQUEST,message.USER_NOT_FOUND);
-    }
+export const getAllTodoService=async(userId,filters)=>{
+    const userTodos=await findAllTodos(userId,filters);
     return userTodos;
-
 }
 export const getTodoByIdService=async(todoId,userId)=>{
     const todo=await findById(todoId,userId);
