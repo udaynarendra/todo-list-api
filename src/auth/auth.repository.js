@@ -4,7 +4,7 @@ import RefreshToken from './refreshToken.model.js';
 import PasswordReset from './passwordReset.model.js';
 
 const user=async(email)=>{
-    return await User.findOne({email})
+    return await User.findOne({email,status:'active'})
 };
 const userById=async(id)=>{
     return await User.findOne({_id:id})
