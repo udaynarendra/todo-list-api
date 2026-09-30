@@ -61,3 +61,26 @@ const sort={[filters.sortBy]:sortOrder} ||
 export const countTodos=async(userId)=>{
   return Todo.countDocuments({user:userId});
 }
+
+export const updateUserTodo=async(todoId,userId,validateData)=>{
+     const data={};
+    if(validateData.status!==undefined){
+        data.status=validateData.status
+    }
+    if(validateData.priority!==undefined){
+        data.priority=validateData.priority;
+    }
+    if(validateData.dueDate!==undefined){
+        data.dueDate=validateData.dueDate
+    }
+    if(validateData.ispinned!==undefined){
+      data.ispinned=validateData.ispinned;
+    }
+      if(validateData.status?.toLowerCase()==='completed'){
+      data.completedAt=new Date(Date.now());
+    }
+    if (validateData.status?.toLowerCase() !== "completed") {
+    data.completedAt = null;
+}
+  return Todo.findOneAndUpdate({_id:todoId,user:userId},{$set:data},{returnDocument:'after'});
+}
