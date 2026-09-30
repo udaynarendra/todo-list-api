@@ -43,7 +43,21 @@ export const findAllTodos = async (userId, filters) => {
       }
     ];
   }
-
+//pagination
+const page=Number(filters.page) ||1;
+const limit=Number(filters.limit)||10;
+const skip=(page-1)*limit;
+//sorting
+const sortOrder=filters.order==='asc'? 1 : -1;
+const sort={[filters.sortBy]:sortOrder} ||
+{ createdAt: -1 };
   return Todo.find(query)
-    .sort({ createdAt: -1 });
+  .select("title description status priority dueDate ispinned")
+    .sort(sort)
+    .skip(skip)
+    .limit(limit)
 };
+//couting Total Todos
+export const countTodos=async(userId)=>{
+  return Todo.countDocuments({user:userId});
+}
