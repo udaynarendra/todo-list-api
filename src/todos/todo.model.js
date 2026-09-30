@@ -48,7 +48,7 @@ const todoSchema=new mongoose.Schema({
         type:Boolean,
         default:true
     },
-    isArchieved:{
+    isAchieved:{
         type:Boolean,
         default:false
     }
