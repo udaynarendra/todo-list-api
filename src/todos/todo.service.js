@@ -1,5 +1,5 @@
 import ApiError from "../utils/ApiError.js";
-import { countTodos, createtodo, findAllTodos, findById } from "./todo.repository.js";
+import { countTodos, createtodo, findAllTodos, findById, updateUserTodo } from "./todo.repository.js";
 import {statusCode,message} from '../constants/index.js';
 export const createTodoService=async(validateData,userId)=>{
    
@@ -43,4 +43,12 @@ export const getTodoByIdService=async(todoId,userId)=>{
         throw new ApiError(statusCode.BAD_REQUEST,message.TODO_NOT_FOUND);
     }
     return todo;
+}
+
+export const updateTodoService=async(todoId,userId,validateData)=>{
+ const updatedTodo=await updateUserTodo(todoId,userId,validateData);
+ if(!updatedTodo){
+    throw new ApiError(statusCode.NOT_FOUND,message.TODO_NOT_FOUND);
+ }
+ return updatedTodo;
 }
