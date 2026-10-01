@@ -1,5 +1,5 @@
 import ApiError from "../utils/ApiError.js";
-import { countTodos, createtodo, findAllTodos, findById, getTrashTodos, softDeleteTodo, updateUserTodo } from "./todo.repository.js";
+import { countTodos, createtodo, findAllTodos, findById, getTrashTodos, permanentDelete, RestoreTodo, softDeleteTodo, updateUserTodo } from "./todo.repository.js";
 import {statusCode,message} from '../constants/index.js';
 export const createTodoService=async(validateData,userId)=>{
    
@@ -64,4 +64,19 @@ export const todoTrashService=async(userId)=>{
         throw new ApiError(statusCode.NOT_FOUND,message.TRASH_EMPTY);
     }
     return trashTodos;
+}
+
+export const restoreTodoService=async(todoId,userId)=>{
+    const restoredTodo=await RestoreTodo(todoId,userId);
+    if(!restoredTodo){
+        throw new ApiError(statusCode.NOT_FOUND,message.TODO_NOT_FOUND_IN_TRASH);
+    }
+    return restoredTodo;
+}
+
+export const permanentDeleteService=async(todoId,userId)=>{
+    const deletedTodo=await permanentDelete(todoId,userId);
+    if(!deletedTodo){
+        throw new ApiError(statusCode.NOT_FOUND,message.TODO_NOT_FOUND);
+    }
 }
