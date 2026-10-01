@@ -97,3 +97,11 @@ export const getTrashTodos=async(userId)=>{
   return Todo.find({user:userId,isDeleted:{$ne:false}})
   .select("title description status priority dueDate ispinned")
 };
+
+export const RestoreTodo=async(todoId,userId)=>{
+  return Todo.findByIdAndUpdate({_id:todoId,user:userId,isDeleted:{$ne:true}},{$set:{isDeleted:false,deletedAt:null}},{returnDocument:'after'});
+}
+
+export const permanentDelete=async(todoId,userId)=>{
+  return Todo.findByIdAndDelete({_id:todoId,user:userId,isDeleted:{$ne:false}});
+}
