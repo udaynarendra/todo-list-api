@@ -3,28 +3,29 @@ export const createtodo=async(data)=>{
     return await Todo.create(data);
 }
 export const findById=async(todoId,userId)=>{
-return await Todo.findOne({_id:todoId,user:userId}).select("title description status priority dueDate ispinned");
+return await Todo.findOne({_id:todoId,user:userId,isDeleted:false}).select("title description status priority dueDate ispinned");
 }
 export const findAllTodos = async (userId, filters) => {
 
   const query = {
-    user: userId
+    user: userId,
+    isDeleted: { $ne: true }
   };
 
-  if (filters.status) {
+  if (filters.status!==undefined) {
     query.status = filters.status;
   }
 
-  if (filters.priority) {
+  if (filters.priority!==undefined) {
     query.priority = filters.priority;
   }
 
-  if (filters.isPinned !== undefined) {
-    query.isPinned = filters.isPinned === "true";
+  if (filters.ispinned !== undefined) {
+    query.ispinned = filters.ispinned === "true";
   }
 
-  if (filters.isArchived !== undefined) {
-    query.isArchived = filters.isArchived === "true";
+  if (filters.isAchieved !== undefined) {
+    query.isAchieved = filters.isAchieved === "true";
   }
 
   if (filters.search) {
@@ -48,9 +49,13 @@ const page=Number(filters.page) ||1;
 const limit=Number(filters.limit)||10;
 const skip=(page-1)*limit;
 //sorting
-const sortOrder=filters.order==='asc'? 1 : -1;
-const sort={[filters.sortBy]:sortOrder} ||
-{ createdAt: -1 };
+const sortBy = filters.sortBy || "createdAt";
+
+const sortOrder = filters.order === "asc" ? 1 : -1;
+
+const sort = {
+  [sortBy]: sortOrder
+};
   return Todo.find(query)
   .select("title description status priority dueDate ispinned")
     .sort(sort)
@@ -59,7 +64,7 @@ const sort={[filters.sortBy]:sortOrder} ||
 };
 //couting Total Todos
 export const countTodos=async(userId)=>{
-  return Todo.countDocuments({user:userId});
+  return Todo.countDocuments({user:userId,isDeleted: { $ne: true }});
 }
 
 export const updateUserTodo=async(todoId,userId,validateData)=>{
@@ -82,5 +87,13 @@ export const updateUserTodo=async(todoId,userId,validateData)=>{
     if (validateData.status?.toLowerCase() !== "completed") {
     data.completedAt = null;
 }
-  return Todo.findOneAndUpdate({_id:todoId,user:userId},{$set:data},{returnDocument:'after'});
+  return Todo.findOneAndUpdate({_id:todoId,user:userId,isDeleted: { $ne: true }},{$set:data},{returnDocument:'after'});
 }
+export const softDeleteTodo=async(todoId,userId)=>{
+  return Todo.findOneAndUpdate({_id:todoId,user:userId,isDeleted: { $ne: true }},{$set:{isDeleted:true,deletedAt:new Date(Date.now())}},{returnDocument:'after'});
+}
+
+export const getTrashTodos=async(userId)=>{
+  return Todo.find({user:userId,isDeleted:{$ne:false}})
+  .select("title description status priority dueDate ispinned")
+};
