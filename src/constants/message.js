@@ -39,6 +39,8 @@ const message = {
     TODO_CREATED:"Todo Created Successfully",
     TODO_NOT_FOUND:"Todo not found",
     TRASH_EMPTY:"Trash is empty",
+    TODO_NOT_FOUND_IN_TRASH:"todo is not found in trash",
+    RESTORE_TODO:"Todo restored successfully",
 
 }
 export default message;
