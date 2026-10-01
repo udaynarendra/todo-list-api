@@ -46,11 +46,19 @@ const todoSchema=new mongoose.Schema({
     }],
     ispinned:{
         type:Boolean,
-        default:true
+        default:false
     },
     isAchieved:{
         type:Boolean,
         default:false
+    },
+    isDeleted:{
+        type:Boolean,
+        default:false
+    },
+    deletedAt:{
+        type:Date,
+        default:null
     }
 
 },{
