@@ -38,6 +38,7 @@ const message = {
     PASSWORD_CHANGED_SUCCESSFULLY: "Password changed successfully.",
     TODO_CREATED:"Todo Created Successfully",
     TODO_NOT_FOUND:"Todo not found",
+    TRASH_EMPTY:"Trash is empty",
 
 }
 export default message;
